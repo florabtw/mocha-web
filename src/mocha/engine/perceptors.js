@@ -1,4 +1,4 @@
-import {parseMap} from './map.js';
+import {parseMap} from '../map.js';
 
 const chunkUpdate = (state, message) => {
   const oldChunk = state.chunks[message.id];
@@ -44,7 +44,7 @@ const itemPrototypeUpdate = (state, message) => {
   return state;
 };
 
-const Handlers = {
+const Perceptors = {
   chunkUpdate,
   entityUpdate,
   loginSuccess,
@@ -52,4 +52,4 @@ const Handlers = {
   itemPrototypeUpdate,
 };
 
-export default Handlers;
+export {Perceptors};

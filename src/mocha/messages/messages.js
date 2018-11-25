@@ -1,9 +1,10 @@
 const MessageTypes = {
-  CHUNK_UPDATE: Symbol('chunk update'),
-  ENTITY_UPDATE: Symbol('entity update'),
-  ITEM_PROTOTYPE_UPDATE: Symbol('item prototype update'),
-  ITEM_UPDATE: Symbol('item update'),
-  LOGIN_SUCCESS: Symbol('login success'),
+  CHUNK_UPDATE: 'CHUNK_UPDATE',
+  ENTITY_UPDATE: 'ENTITY_UPDATE',
+  ITEM_PROTOTYPE_UPDATE: 'ITEM_PROTOTYPE_UPDATE',
+  ITEM_UPDATE: 'ITEM_UPDATE',
+  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+  MOVE: 'MOVE',
 };
 
 const ChunkUpdate = (id, map) => ({
@@ -36,12 +37,23 @@ const ItemUpdate = (id, prototypeId) => ({
   prototypeId,
 });
 
+const Move = (id, x, y, name, xOffset, yOffset) => ({
+  type: MessageTypes.MOVE,
+  id,
+  x,
+  y,
+  name,
+  xOffset,
+  yOffset,
+});
+
 const Messages = {
   ChunkUpdate,
   EntityUpdate,
   LoginSuccess,
   ItemPrototypeUpdate,
   ItemUpdate,
+  Move,
 };
 
 export {MessageTypes, Messages};

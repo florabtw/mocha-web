@@ -1,8 +1,23 @@
-import {parse} from './parser';
+import {decode, encode} from './messages';
+
+const blobToText = blob => {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const line = reader.result;
+      const text = line.slice(0, -1);
+      resolve(text);
+    };
+
+    reader.readAsText(blob);
+  });
+};
 
 function Connection(socket) {
-  socket.onmessage = message => {
-    parse(message)
+  socket.onmessage = packet => {
+    blobToText(packet.data)
+      .then(decode)
       .then(this.onMessage)
       .catch(e => console.log(e.message));
   };
@@ -12,7 +27,8 @@ function Connection(socket) {
   };
 
   this.send = message => {
-    socket.send(message);
+    const packet = encode(message);
+    socket.send(packet);
   };
 }
 
