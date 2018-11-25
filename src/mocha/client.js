@@ -18,11 +18,14 @@ const blobToText = blob => {
 };
 
 function Connection(socket) {
-  socket.onmessage = frame => {
-    blobToText(frame.data)
-      .then(packets => Promise.all(packets.map(decode)))
-      .then(messages => messages.forEach(this.onMessage))
-      .catch(e => console.log(e.message));
+  socket.onmessage = async frame => {
+    const packets = await blobToText(frame.data);
+
+    packets.forEach(packet => console.debug(`RECV: ${packet}`));
+
+    const messages = await Promise.all(packets.map(decode));
+
+    messages.forEach(this.onMessage);
   };
 
   this.close = () => {
@@ -31,6 +34,9 @@ function Connection(socket) {
 
   this.send = message => {
     const packet = encode(message);
+
+    console.debug(`SEND: ${packet}`);
+
     socket.send(packet);
   };
 }
