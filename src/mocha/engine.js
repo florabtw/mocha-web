@@ -1,5 +1,5 @@
 import {MessageTypes} from './messages';
-import {Handlers} from './handlers';
+import Handlers from './handlers';
 
 const create = () => ({
   chunks: {},
