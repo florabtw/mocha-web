@@ -1,15 +1,14 @@
 import {drawTile} from './tiles';
+import {drawEntity} from './entities';
 
 const draw = (canvas, state) => {
-  const ctx = canvas.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
-
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const context = canvas.getContext('2d');
+  context.imageSmoothingEnabled = false;
 
   const currentChunk = state.chunks[1];
+  if (currentChunk) drawMap(context, currentChunk.tiles);
 
-  if (currentChunk) drawMap(ctx, currentChunk.tiles);
+  drawEntities(context, state.entities);
 };
 
 const drawMap = (context, rows) => {
@@ -20,6 +19,10 @@ const drawRow = (context, row, rowIndex) => {
   row.forEach((tile, columnIndex) =>
     drawTile(context, tile, rowIndex, columnIndex),
   );
+};
+
+const drawEntities = (context, entities) => {
+  Object.values(entities).forEach(entity => drawEntity(context, entity));
 };
 
 const graphics = {draw};
