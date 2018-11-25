@@ -45,7 +45,7 @@ const play = canvas => {
     };
 
     canvas.addEventListener('keydown', event => {
-      const act = Actors(event.key);
+      const act = Actors[event.key];
       const message = act(state);
 
       connection.send(message);

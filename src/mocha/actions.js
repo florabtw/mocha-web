@@ -5,19 +5,43 @@ const requestEntitiesByPlayerId = state => {
 };
 
 const moveDown = state => {
-  return Messages.Move(1, 0, 0, 'EAST', 0, 0);
+  const entityId = state.self.entities[0];
+  const entity = state.entities[entityId];
+
+  const x = entity.x;
+  const y = entity.y;
+
+  return Messages.Move(entityId, x, y, 'SOUTH', 0, 0);
 };
 
 const moveLeft = state => {
-  return Messages.Move(1, 0, 0, 'EAST', 0, 0);
+  const entityId = state.self.entities[0];
+  const entity = state.entities[entityId];
+
+  const x = entity.x;
+  const y = entity.y;
+
+  return Messages.Move(entityId, x, y, 'WEST', 0, 0);
 };
 
 const moveRight = state => {
-  return Messages.Move(1, 0, 0, 'EAST', 0, 0);
+  const entityId = state.self.entities[0];
+  const entity = state.entities[entityId];
+
+  const x = entity.x;
+  const y = entity.y;
+
+  return Messages.Move(entityId, x, y, 'EAST', 0, 0);
 };
 
 const moveUp = state => {
-  return Messages.Move(1, 0, 0, 'EAST', 0, 0);
+  const entityId = state.self.entities[0];
+  const entity = state.entities[entityId];
+
+  const x = entity.x;
+  const y = entity.y;
+
+  return Messages.Move(entityId, x, y, 'NORTH', 0, 0);
 };
 
 const Actions = {

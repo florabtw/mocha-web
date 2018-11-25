@@ -11,53 +11,53 @@ const MessageTypes = {
 
 const AssignEntity = id => ({
   type: MessageTypes.ASSIGN_ENTITY,
-  id,
+  id: Number(id),
 });
 
 const ChunkUpdate = (id, map) => ({
   type: MessageTypes.CHUNK_UPDATE,
-  id,
+  id: Number(id),
   map,
 });
 
 const EntityUpdate = (id, x, y) => ({
   type: MessageTypes.ENTITY_UPDATE,
-  id,
-  x,
-  y,
+  id: Number(id),
+  x: Number(x),
+  y: Number(y),
 });
 
 const LoginSuccess = id => ({type: MessageTypes.LOGIN_SUCCESS, id});
 
 const ItemPrototypeUpdate = (id, name, spriteId, itemType, description) => ({
   type: MessageTypes.ITEM_PROTOTYPE_UPDATE,
-  id,
+  id: Number(id),
   name,
-  spriteId,
+  spriteId: Number(spriteId),
   itemType,
   description,
 });
 
 const ItemUpdate = (id, prototypeId) => ({
   type: MessageTypes.ITEM_UPDATE,
-  id,
-  prototypeId,
+  id: Number(id),
+  prototypeId: Number(prototypeId),
 });
 
 const Move = (id, x, y, name, xOffset, yOffset) => ({
   type: MessageTypes.MOVE,
-  id,
-  x,
-  y,
+  id: Number(id),
+  x: Number(x),
+  y: Number(y),
   name,
-  xOffset,
-  yOffset,
+  xOffset: Number(xOffset),
+  yOffset: Number(yOffset),
 });
 
 const RequestEntitiesByPlayerId = (id, ...entityIds) => ({
   type: MessageTypes.REQUEST_ENTITIES_BY_PLAYER_ID,
-  id,
-  entityIds,
+  id: Number(id),
+  entityIds: entityIds.map(id => Number(id)),
 });
 
 const Messages = {
