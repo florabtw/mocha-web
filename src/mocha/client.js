@@ -18,7 +18,7 @@ function Connection(socket) {
 
 const connect = () => {
   return new Promise(resolve => {
-    const socket = new WebSocket('ws://dev.nick.exposed:9000', ['binary']);
+    const socket = new WebSocket('ws://mocha.nick.exposed/proxy', ['binary']);
 
     socket.onopen = () => resolve(new Connection(socket));
   });

@@ -3,7 +3,7 @@
 docker run                     \
     --net host                 \
     --rm                       \
-    -it    \
+    -d                         \
     siboulet/websockify        \
-    9000                       \
+    8026                       \
     206.189.219.65:8026        \
