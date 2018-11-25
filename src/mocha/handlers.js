@@ -1,4 +1,4 @@
-import { parseMap } from './map.js';
+import {parseMap} from './map.js';
 
 const chunkUpdate = (state, message) => {
   const oldChunk = state.chunks[message.id];
@@ -14,7 +14,13 @@ const chunkUpdate = (state, message) => {
 };
 
 const loginSuccess = (state, message) => {
-  return {...state, self: {id: message.id}};
+  const oldSelf = state.self;
+  const newSelf = {...oldSelf, id: message.id};
+
+  return {
+    ...state,
+    self: newSelf,
+  };
 };
 
 const entityUpdate = (state, message) => {

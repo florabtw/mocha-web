@@ -25,14 +25,19 @@ const play = canvas => {
     let connection = {};
     let state = engine.create();
 
+    const stop = () => {
+      connection.close();
+
+      state = engine.stop();
+      graphics.draw(canvas, state);
+    };
+
     const onConnection = conn => {
       connection = conn;
 
       connection.onMessage = onMessage;
 
-      connection.send('REQUEST_CHUNK_BY_ID 1\n');
-
-      resolve({ stop: connection.close });
+      resolve({ stop });
     };
 
     const onMessage = message => {

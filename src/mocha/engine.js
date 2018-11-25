@@ -4,7 +4,13 @@ import Handlers from './handlers';
 const create = () => ({
   chunks: {},
   entities: {},
-  self: {},
+  self: { isRunning: true },
+});
+
+const stop = () => ({
+  chunks: {},
+  entities: {},
+  self: { isRunning: false },
 });
 
 const handlerMap = {
@@ -21,6 +27,6 @@ const apply = (state, message) => {
   return nextState;
 };
 
-const engine = {apply, create};
+const engine = {apply, create, stop};
 
 export default engine;
