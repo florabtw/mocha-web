@@ -6,8 +6,11 @@ const blobToText = blob => {
 
     reader.onload = () => {
       const line = reader.result;
-      const text = line.slice(0, -1);
-      resolve(text);
+
+      // weird bug - receiving multiple messages from proxy
+      const packets = line.split('\n').filter(packet => packet.length > 0);
+
+      resolve(packets);
     };
 
     reader.readAsText(blob);
@@ -15,10 +18,10 @@ const blobToText = blob => {
 };
 
 function Connection(socket) {
-  socket.onmessage = packet => {
-    blobToText(packet.data)
-      .then(decode)
-      .then(this.onMessage)
+  socket.onmessage = frame => {
+    blobToText(frame.data)
+      .then(packets => Promise.all(packets.map(decode)))
+      .then(messages => messages.forEach(this.onMessage))
       .catch(e => console.log(e.message));
   };
 

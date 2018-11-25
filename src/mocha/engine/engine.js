@@ -4,16 +4,17 @@ import {Perceptors} from './perceptors';
 const create = () => ({
   chunks: {},
   entities: {},
-  self: {isRunning: true},
+  self: {entities: [], isRunning: true},
 });
 
 const stop = () => ({
   chunks: {},
   entities: {},
-  self: {isRunning: false},
+  self: {entities: [], isRunning: false},
 });
 
 const perceptorMap = {
+  [MessageTypes.ASSIGN_ENTITY]: Perceptors.assignEntity,
   [MessageTypes.CHUNK_UPDATE]: Perceptors.chunkUpdate,
   [MessageTypes.ENTITY_UPDATE]: Perceptors.entityUpdate,
   [MessageTypes.ITEM_PROTOTYPE_UPDATE]: Perceptors.itemPrototypeUpdate,

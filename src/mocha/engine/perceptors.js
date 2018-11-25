@@ -1,5 +1,15 @@
 import {parseMap} from '../map.js';
 
+const assignEntity = (state, message) => {
+  const oldSelf = state.self;
+  const newSelf = {...oldSelf, entities: [...oldSelf.entities, message.id]};
+
+  return {
+    ...state,
+    self: newSelf,
+  };
+};
+
 const chunkUpdate = (state, message) => {
   const oldChunk = state.chunks[message.id];
   const newChunk = {...oldChunk, tiles: parseMap(message.map)};
@@ -45,6 +55,7 @@ const itemPrototypeUpdate = (state, message) => {
 };
 
 const Perceptors = {
+  assignEntity,
   chunkUpdate,
   entityUpdate,
   loginSuccess,

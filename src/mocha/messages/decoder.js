@@ -7,12 +7,12 @@ const Decoders = {
   [MessageTypes.ITEM_PROTOTYPE_UPDATE]: Messages.ItemPrototypeUpdate,
   [MessageTypes.ITEM_UPDATE]: Messages.ItemUpdate,
   [MessageTypes.MOVE]: Messages.Move,
+  [MessageTypes.REQUEST_ENTITIES_BY_PLAYER_ID]:
+    Messages.RequestEntitiesByPlayerId,
 };
 
 const decode = async packet => {
   const [prefix, ...rest] = packet.split(' ');
-
-  console.log(packet);
 
   const decoder = Decoders[prefix];
 
