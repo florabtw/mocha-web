@@ -1,44 +1,47 @@
 import React, {Component} from 'react';
-import { client, engine, graphics } from './mocha';
+import {client, engine, graphics} from './mocha';
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.gameState = engine.create();
-  }
-
-  componentDidMount() {
-    client.connect().then(this.onConnection);
-  }
-
-  onConnection = connection => {
-    this.connection = connection;
-
-    connection.onMessage = message => {
-      this.gameState = engine.apply(this.gameState, message);
-      console.log(message.type);
-      console.log(this.gameState);
-      // graphics.draw(this.canvas, this.gameState);
-    };
-  };
-
   onDisconnectClicked = () => {
-    this.connection.close();
+    this.game.stop();
   };
 
   onCanvasRef = ref => {
-    this.canvas = ref;
+    play(ref).then(game => (this.game = game));
   };
 
   render() {
     return (
-      <div>
+      <div className="app">
+        <canvas id="mocha" width="512" height="512" ref={this.onCanvasRef} />
         <button onClick={this.onDisconnectClicked}>Disconnect</button>
-        <canvas ref={this.onCanvasRef} />
       </div>
     );
   }
 }
+
+const play = canvas => {
+  return new Promise(resolve => {
+    let connection = {};
+    let state = engine.create();
+
+    const onConnection = conn => {
+      connection = conn;
+
+      connection.onMessage = onMessage;
+
+      connection.send('REQUEST_CHUNK_BY_ID 1\n');
+
+      resolve({ stop: connection.close });
+    };
+
+    const onMessage = message => {
+      state = engine.apply(state, message);
+      graphics.draw(canvas, state);
+    };
+
+    client.connect().then(onConnection);
+  });
+};
 
 export default App;

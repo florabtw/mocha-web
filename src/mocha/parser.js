@@ -15,11 +15,11 @@ const blobToText = blob => {
 };
 
 const messageMap = {
-  CHUNK: Messages.Chunk,
+  CHUNK_UPDATE: Messages.ChunkUpdate,
   ENTITY_UPDATE: Messages.EntityUpdate,
   ITEM_PROTOTYPE_UPDATE: Messages.ItemPrototypeUpdate,
   ITEM_UPDATE: Messages.ItemUpdate,
-  LOGIN_SUCCESS: Messages.LoginSuccess
+  LOGIN_SUCCESS: Messages.LoginSuccess,
 };
 
 const parse = async frame => {
@@ -27,7 +27,13 @@ const parse = async frame => {
 
   const [prefix, ...rest] = text.split(' ');
 
-  return messageMap[prefix](...rest);
+  const message = messageMap[prefix];
+
+  if (!message) {
+    throw new Error(`Received unknown message: ${text}`);
+  }
+
+  return message(...rest);
 };
 
-export { parse };
+export {parse};

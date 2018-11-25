@@ -1,13 +1,6 @@
 import {MessageTypes} from './messages';
 import {Handlers} from './handlers';
 
-const TileTypes = {
-  GRASS: Symbol('grass'),
-  DIRT: Symbol('dirt'),
-  WATER: Symbol('water'),
-  STONE: Symbol('stone'),
-};
-
 const create = () => ({
   chunks: {},
   entities: {},

@@ -1,8 +1,10 @@
-import { parse } from './parser';
+import {parse} from './parser';
 
 function Connection(socket) {
   socket.onmessage = message => {
-    parse(message).then(this.onMessage);
+    parse(message)
+      .then(this.onMessage)
+      .catch(e => console.log(e.message));
   };
 
   this.close = () => {
@@ -22,4 +24,4 @@ const connect = () => {
   });
 };
 
-export default { connect };
+export default {connect};

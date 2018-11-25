@@ -1,13 +1,13 @@
 const MessageTypes = {
-  CHUNK: Symbol('chunk'),
+  CHUNK_UPDATE: Symbol('chunk update'),
   ENTITY_UPDATE: Symbol('entity update'),
   ITEM_PROTOTYPE_UPDATE: Symbol('item prototype update'),
   ITEM_UPDATE: Symbol('item update'),
   LOGIN_SUCCESS: Symbol('login success'),
 };
 
-const Chunk = (id, map) => ({
-  type: MessageTypes.CHUNK,
+const ChunkUpdate = (id, map) => ({
+  type: MessageTypes.CHUNK_UPDATE,
   id,
   map,
 });
@@ -37,7 +37,7 @@ const ItemUpdate = (id, prototypeId) => ({
 });
 
 const Messages = {
-  Chunk,
+  ChunkUpdate,
   EntityUpdate,
   LoginSuccess,
   ItemPrototypeUpdate,
