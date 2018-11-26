@@ -23,7 +23,9 @@ function Connection(socket) {
 
     packets.forEach(packet => console.debug(`RECV: ${packet}`));
 
-    const messages = await Promise.all(packets.map(decode));
+    const messages = await Promise.all(packets.map(decode)).catch(
+      e => console.error(e.message) || [],
+    );
 
     messages.forEach(this.onMessage);
   };
