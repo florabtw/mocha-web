@@ -7,7 +7,6 @@ const blobToText = blob => {
     reader.onload = () => {
       const line = reader.result;
 
-      // weird bug - receiving multiple messages from proxy
       const packets = line.split('\n').filter(packet => packet.length > 0);
 
       resolve(packets);
@@ -39,7 +38,7 @@ function Connection(socket) {
 
     console.debug(`SEND: ${packet}`);
 
-    socket.send(packet);
+    socket.send(`${packet}\n`);
   };
 }
 
