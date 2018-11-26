@@ -20,10 +20,19 @@ const perceptorMap = {
   [MessageTypes.ITEM_PROTOTYPE_UPDATE]: Perceptors.itemPrototypeUpdate,
   [MessageTypes.ITEM_UPDATE]: Perceptors.itemUpdate,
   [MessageTypes.LOGIN_SUCCESS]: Perceptors.loginSuccess,
+  [MessageTypes.MOVE]: Perceptors.move,
+  [MessageTypes.REQUEST_ENTITIES_BY_PLAYER_ID]:
+    Perceptors.requestEntitiesByPlayerId,
 };
 
 const apply = (state, message) => {
   const perceive = perceptorMap[message.type];
+
+  if (!perceive) {
+    console.error(`Unable to perceive: ${message.type}`);
+    return state;
+  }
+
   const nextState = perceive(state, message);
 
   return nextState;

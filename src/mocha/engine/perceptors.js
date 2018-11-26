@@ -1,15 +1,5 @@
 import {parseMap} from '../map.js';
 
-const assignEntity = (state, message) => {
-  const oldSelf = state.self;
-  const newSelf = {...oldSelf, entities: [...oldSelf.entities, message.id]};
-
-  return {
-    ...state,
-    self: newSelf,
-  };
-};
-
 const chunkUpdate = (state, message) => {
   const oldChunk = state.chunks[message.id];
   const newChunk = {...oldChunk, tiles: parseMap(message.map)};
@@ -54,13 +44,40 @@ const itemPrototypeUpdate = (state, message) => {
   return state;
 };
 
+const move = (state, {id, x, y, xOffset, yOffset}) => {
+  const oldEntity = state.entities[id];
+  const newEntity = {...oldEntity, x: x + xOffset, y: y + yOffset};
+
+  return {
+    ...state,
+    entities: {
+      ...state.entities,
+      [id]: newEntity,
+    },
+  };
+};
+
+const requestEntitiesByPlayerId = (state, message) => {
+  const oldSelf = state.self;
+  const newSelf = {
+    ...oldSelf,
+    entities: [...oldSelf.entities, ...message.entityIds],
+  };
+
+  return {
+    ...state,
+    self: newSelf,
+  };
+};
+
 const Perceptors = {
-  assignEntity,
   chunkUpdate,
   entityUpdate,
   loginSuccess,
+  move,
   itemUpdate,
   itemPrototypeUpdate,
+  requestEntitiesByPlayerId,
 };
 
 export {Perceptors};

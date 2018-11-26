@@ -3,7 +3,7 @@ import engine from './engine';
 import graphics from './graphics';
 
 import {Actions} from './actions';
-import {MessageTypes, Messages} from './messages';
+import {MessageTypes} from './messages';
 
 const play = canvas => {
   return new Promise(resolve => {
@@ -25,20 +25,11 @@ const play = canvas => {
       resolve({stop});
     };
 
-    let waitingForAssignment = false;
-
     const onMessage = message => {
       state = engine.apply(state, message);
 
       if (message.type === MessageTypes.LOGIN_SUCCESS) {
-        connection.send(Actions.requestEntitiesByPlayerId(state))
-        waitingForAssignment = true;
-      }
-
-      if (waitingForAssignment && message.type === MessageTypes.ENTITY_UPDATE) {
-        const assign = Messages.AssignEntity(message.id);
-        state = engine.apply(state, assign);
-        waitingForAssignment = false;
+        connection.send(Actions.requestEntitiesByPlayerId(state));
       }
 
       graphics.draw(canvas, state);
