@@ -1,4 +1,4 @@
-import {drawTile} from './tiles';
+import {drawTiles} from './tiles';
 import {drawEntity} from './entities';
 
 const draw = (canvas, state) => {
@@ -11,18 +11,11 @@ const draw = (canvas, state) => {
   if (!state.self.isRunning) return;
 
   const currentChunk = state.chunks[1];
-  if (currentChunk) drawMap(context, currentChunk.tiles);
 
-  drawEntities(context, state.entities);
-};
+  if (!currentChunk) return;
 
-const drawMap = (context, rows) => {
-  rows.forEach((row, rowIndex) => drawRow(context, row, rowIndex));
-};
-
-const drawRow = (context, row, rowIndex) => {
-  row.forEach((tile, columnIndex) =>
-    drawTile(context, tile, rowIndex, columnIndex),
+  drawTiles(context, currentChunk.tiles).then(() =>
+    drawEntities(context, state.entities),
   );
 };
 

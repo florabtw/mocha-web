@@ -1,36 +1,36 @@
-import {TileTypes} from '../map';
+import {neighbors} from '../map';
+import {tileFromBitmap} from './sprites';
 
-import dirtSrc from './sprites/dirt.png';
-import grassSrc from './sprites/grass.png';
-import stoneSrc from './sprites/stone.png';
-import waterSrc from './sprites/water.png';
-
-const dirtImage = new Image();
-dirtImage.src = dirtSrc;
-
-const grassImage = new Image();
-grassImage.src = grassSrc;
-
-const stoneImage = new Image();
-stoneImage.src = stoneSrc;
-
-const waterImage = new Image();
-waterImage.src = waterSrc;
-
-const imageMap = {
-  [TileTypes.DIRT]: dirtImage,
-  [TileTypes.GRASS]: grassImage,
-  [TileTypes.STONE]: stoneImage,
-  [TileTypes.WATER]: waterImage,
+const drawTiles = (context, tiles) => {
+  return Promise.all(
+    tiles.map((_, rowIndex) => drawRow(context, tiles, rowIndex)),
+  );
 };
 
-const drawTile = (context, tile, row, column) => {
+const drawRow = async (context, tiles, rowIndex) => {
+  const row = tiles[rowIndex];
+
+  return Promise.all(
+    row.map((_, columnIndex) =>
+      drawTile(context, tiles, rowIndex, columnIndex),
+    ),
+  );
+};
+
+const drawTile = (context, tiles, row, column) => {
+  const neighborLocations = neighbors(row, column);
+  const neighborTiles = neighborLocations.map(([x, y]) => tiles[x][y]);
+
+  const tile = tiles[row][column];
+
+  const neighborBits = neighborTiles.map(target => (target === tile ? 1 : 0));
+
   const startX = column * 32;
   const startY = row * 32;
 
-  const image = imageMap[tile];
-
-  context.drawImage(image, 0, 0, 16, 16, startX, startY, 32, 32);
+  return tileFromBitmap(tile, neighborBits).then(image =>
+    context.drawImage(image, startX, startY),
+  );
 };
 
-export { drawTile };
+export {drawTiles};

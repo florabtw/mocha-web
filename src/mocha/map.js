@@ -23,4 +23,18 @@ const parseMap = map => {
   });
 };
 
-export { parseMap, TileTypes };
+const neighborMap = {
+  west: (row, column) => [row, Math.max(0, column - 1)],
+  south: (row, column) => [Math.min(15, row + 1), column],
+  east: (row, column) => [row, Math.min(15, column + 1)],
+  north: (row, column) => [Math.max(0, row - 1), column],
+};
+
+const neighbors = (row, column) => [
+  neighborMap.west(row, column),
+  neighborMap.south(row, column),
+  neighborMap.east(row, column),
+  neighborMap.north(row, column),
+];
+
+export {neighbors, parseMap, TileTypes};
