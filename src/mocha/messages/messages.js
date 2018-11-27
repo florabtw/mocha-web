@@ -14,17 +14,18 @@ const AssignEntity = id => ({
   id: Number(id),
 });
 
-const ChunkUpdate = (id, map) => ({
+const ChunkUpdate = (id, x, y, map) => ({
   type: MessageTypes.CHUNK_UPDATE,
   id: Number(id),
   map,
 });
 
-const EntityUpdate = (id, x, y) => ({
+const EntityUpdate = (id, x, y, entityType) => ({
   type: MessageTypes.ENTITY_UPDATE,
   id: Number(id),
   x: Number(x),
   y: Number(y),
+  entityType,
 });
 
 const LoginSuccess = id => ({type: MessageTypes.LOGIN_SUCCESS, id});

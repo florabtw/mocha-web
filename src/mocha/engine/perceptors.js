@@ -24,6 +24,8 @@ const loginSuccess = (state, message) => {
 };
 
 const entityUpdate = (state, message) => {
+  if (message.entityType === 'ITEM') return state;
+
   const oldEntity = state.entities[message.id] || {};
   const newEntity = {...oldEntity, x: message.x, y: message.y};
 
