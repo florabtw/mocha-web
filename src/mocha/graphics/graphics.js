@@ -1,5 +1,6 @@
 import {drawTiles} from './tiles';
 import {drawEntity} from './entities';
+import {naturalWidth} from './scale';
 
 const draw = (canvas, state) => {
   const context = canvas.getContext('2d');
@@ -14,13 +15,18 @@ const draw = (canvas, state) => {
 
   if (!currentChunk) return;
 
-  drawTiles(context, currentChunk.tiles).then(() =>
-    drawEntities(context, state.entities),
+  const scalar = canvas.width / naturalWidth();
+  const options = {scalar};
+
+  drawTiles(context, currentChunk.tiles, options).then(() =>
+    drawEntities(context, state.entities, options),
   );
 };
 
-const drawEntities = (context, entities) => {
-  Object.values(entities).forEach(entity => drawEntity(context, entity));
+const drawEntities = (context, entities, options) => {
+  Object.values(entities).forEach(entity =>
+    drawEntity(context, entity, options),
+  );
 };
 
 const graphics = {draw};

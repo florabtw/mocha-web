@@ -1,4 +1,5 @@
 import {TileTypes} from '../map';
+import {scale, unit} from './scale';
 
 import dirtSrc from './sprites/dirt.png';
 import grassSrc from './sprites/grass.png';
@@ -31,7 +32,7 @@ const ImageCache = {
   [TileTypes.WATER]: {},
 };
 
-const tileFromBitmap = (type, [eight, four, two, one]) => {
+const tileFromBitmap = (type, [eight, four, two, one], {scalar}) => {
   let spriteIndex = eight * 8 + four * 4 + two * 2 + one * 1;
 
   if (type === TileTypes.DIRT) spriteIndex = 0;
@@ -43,13 +44,20 @@ const tileFromBitmap = (type, [eight, four, two, one]) => {
   const row = spriteIndex % 4;
   const column = Math.floor(spriteIndex / 4);
 
-  const [startX, startY] = [row, column].map(i => i * 16);
+  const [startX, startY] = [row, column].map(i => scale(unit(), i));
 
-  const image = createImageBitmap(TileMap[type], startX, startY, 16, 16, {
-    resizeWidth: 32,
-    resizeHeight: 32,
-    resizeQuality: 'pixelated',
-  });
+  const image = createImageBitmap(
+    TileMap[type],
+    startX,
+    startY,
+    unit(),
+    unit(),
+    {
+      resizeHeight: scale(unit(), scalar),
+      resizeWidth: scale(unit(), scalar),
+      resizeQuality: 'pixelated',
+    },
+  );
 
   ImageCache[type][spriteIndex] = image;
 
